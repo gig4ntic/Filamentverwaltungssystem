@@ -7,17 +7,14 @@ namespace Filamentverwaltungssystem
     //Benutzerrolle Admin oder Basisnutzer
     public enum UserRole
     {
-        Basic,
-        Admin
+        User = 0,
+        Admin = 1
     }
 
-    internal class User
+    public class User
     {
-        //Benutzername
-        public string Username { get; set; }
-        //Passwort
-        public string Password { get; set; }
-        //Rolle Admin oder Basisnutzer
-        public UserRole Role { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public UserRole Role { get; set; } = UserRole.User;
     }
 }

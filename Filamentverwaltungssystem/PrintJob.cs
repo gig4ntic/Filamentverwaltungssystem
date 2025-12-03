@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Filamentverwaltungssystem
 {
-    internal class PrintJob
+    public class PrintJob
     {
     }
 }
