@@ -17,7 +17,7 @@ namespace Filamentverwaltungssystem
             return $"{Type} | {Color} | Ø {Diameter}mm | {RemainingGrams}g (Id: {Id})";
         }
 
-        public class FilamentUsageEntry
+        public class FilamentUsage
         {
             public Guid FilamentId { get; set; }
             public int UsageCount { get; set; }

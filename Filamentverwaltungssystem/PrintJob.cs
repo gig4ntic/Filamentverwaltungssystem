@@ -6,5 +6,10 @@ namespace Filamentverwaltungssystem
 {
     public class PrintJob
     {
+        public string FilamentType { get; set; } = string.Empty;
+        public string Color { get; set; } = string.Empty;
+        public double Diameter { get; set; }
+        public double AmountGrams { get; set; }
+        public string PrinterName { get; set; } = string.Empty;
     }
 }

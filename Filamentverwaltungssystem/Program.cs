@@ -5,7 +5,7 @@
     {
         static void Main(string[] args)
         {
-            var app = new ApplicationController();
+            var app = new Application();
             app.Run();
         }
     }

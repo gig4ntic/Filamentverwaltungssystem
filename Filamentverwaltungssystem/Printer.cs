@@ -15,7 +15,7 @@ namespace Filamentverwaltungssystem
         }
     }
 
-    public class PrinterUsageEntry
+    public class PrinterUsage
     {
         public Guid PrinterId { get; set; }
         public int UsageCount { get; set; }

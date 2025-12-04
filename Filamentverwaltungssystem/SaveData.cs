@@ -17,10 +17,10 @@ namespace Filamentverwaltungssystem
     public class StatisticsData
     {
         // Filamentnutzung
-        public List<Filament.FilamentUsageEntry> FilamentUsage { get; set; } = new();
+        public List<Filament.FilamentUsage> FilamentUsage { get; set; } = new();
 
         // Druckernutzung
-        public List<PrinterUsageEntry> PrinterUsage { get; set; } = new();
+        public List<PrinterUsage> PrinterUsage { get; set; } = new();
     }
 
     public class DataStore
