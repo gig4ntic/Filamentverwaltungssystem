@@ -131,9 +131,9 @@ namespace Filamentverwaltungssystem
             };
         }
 
-       
+
         // Filament-Verwaltung
-        
+
 
         public void ShowAllFilaments()
         {
@@ -216,9 +216,27 @@ namespace Filamentverwaltungssystem
             Console.WriteLine("Filament wurde entfernt.");
         }
 
-        
+        private void IncreaseFilamentUsage(Guid filamentId)
+        {
+            var entry = _dataStore.Statistics.FilamentUsage
+                .FirstOrDefault(e => e.FilamentId == filamentId);
+
+            if (entry == null)
+            {
+                entry = new Filament.FilamentUsage
+                {
+                    FilamentId = filamentId,
+                    UsageCount = 0
+                };
+                _dataStore.Statistics.FilamentUsage.Add(entry);
+            }
+
+            entry.UsageCount++;
+        }
+
+
         // Drucker-Verwaltung
-        
+
 
         public void ShowPrinters()
         {
@@ -278,6 +296,76 @@ namespace Filamentverwaltungssystem
             _dataStore.SaveAppData();
 
             Console.WriteLine("Drucker wurde entfernt.");
+        }
+
+        private void IncreasePrinterUsage(Guid printerId)
+        {
+            var entry = _dataStore.Statistics.PrinterUsage
+                .FirstOrDefault(e => e.PrinterId == printerId);
+
+            if (entry == null)
+            {
+                entry = new PrinterUsage
+                {
+                    PrinterId = printerId,
+                    UsageCount = 0
+                };
+                _dataStore.Statistics.PrinterUsage.Add(entry);
+            }
+
+            entry.UsageCount++;
+        }
+
+        //Statistik anzeigen
+
+        public void ShowStatistics()
+        {
+            Console.WriteLine("Top 5 Filamente (nach Häufigkeit der Nutzung):");
+
+            var topFilaments = _dataStore.Statistics.FilamentUsage
+                .OrderByDescending(f => f.UsageCount)
+                .Take(5)
+                .ToList();
+
+            if (!topFilaments.Any())
+            {
+                Console.WriteLine("- Keine Daten vorhanden.");
+            }
+            else
+            {
+                foreach (var entry in topFilaments)
+                {
+                    var filament = _dataStore.AppData.Filaments.FirstOrDefault(f => f.Id == entry.FilamentId);
+                    string name = filament != null
+                        ? $"{filament.Type} | {filament.Color} | Ø {filament.Diameter}mm"
+                        : "Unbekanntes Filament";
+
+                    Console.WriteLine($"- {name}: {entry.UsageCount} Verwendungen");
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Top 5 Drucker (nach Häufigkeit der Nutzung):");
+
+            var topPrinters = _dataStore.Statistics.PrinterUsage
+                .OrderByDescending(p => p.UsageCount)
+                .Take(5)
+                .ToList();
+
+            if (!topPrinters.Any())
+            {
+                Console.WriteLine("- Keine Daten vorhanden.");
+            }
+            else
+            {
+                foreach (var entry in topPrinters)
+                {
+                    var printer = _dataStore.AppData.Printers.FirstOrDefault(p => p.Id == entry.PrinterId);
+                    string name = printer != null ? printer.Name : "Unbekannter Drucker";
+
+                    Console.WriteLine($"- {name}: {entry.UsageCount} Verwendungen");
+                }
+            }
         }
     }
 }

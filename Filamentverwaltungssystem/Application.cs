@@ -9,6 +9,7 @@ namespace Filamentverwaltungssystem
         private readonly DataStore _dataStore;
         private readonly AuthService _authService;
         private readonly InventoryService _inventoryService;
+        private readonly UserManagement _userManagementService;
 
         public Application()
         {
@@ -17,6 +18,7 @@ namespace Filamentverwaltungssystem
 
             _authService = new AuthService(_dataStore.AppData);
             _inventoryService = new InventoryService(_dataStore);
+            _userManagementService = new UserManagement(_dataStore);
         }
 
         public void Run()
@@ -52,6 +54,7 @@ namespace Filamentverwaltungssystem
                         var newUser = _authService.Register();
                         if (newUser != null)
                         {
+                            _dataStore.SaveAppData();
                             Console.WriteLine("Sie können sich nun einloggen.");
                         }
                         Pause();
@@ -125,7 +128,9 @@ namespace Filamentverwaltungssystem
                 Console.WriteLine("2) Alle Filamente anzeigen");
                 Console.WriteLine("3) Filament-Verwaltung (hinzufügen/entfernen)");
                 Console.WriteLine("4) Drucker-Verwaltung");
-                Console.WriteLine("5) Logout");
+                Console.WriteLine("5) User-Verwaltung");
+                Console.WriteLine("6) Statistik anzeigen");
+                Console.WriteLine("7) Logout");
                 Console.Write("Auswahl: ");
 
                 string? input = Console.ReadLine();
@@ -147,6 +152,13 @@ namespace Filamentverwaltungssystem
                         ShowPrinterManagementMenu();
                         break;
                     case "5":
+                        ShowUserManagementMenu();
+                        break;
+                    case "6":
+                        _inventoryService.ShowStatistics();
+                        Pause();
+                        break;
+                    case "7":
                         logout = true;
                         break;
                     default:
@@ -221,6 +233,47 @@ namespace Filamentverwaltungssystem
                         break;
                     case "3":
                         _inventoryService.RemovePrinter();
+                        Pause();
+                        break;
+                    case "4":
+                        back = true;
+                        break;
+                    default:
+                        Console.WriteLine("Ungültige Eingabe.");
+                        Pause();
+                        break;
+                }
+            }
+        }
+
+        private void ShowUserManagementMenu()
+        {
+            bool back = false;
+
+            while (!back)
+            {
+                Console.Clear();
+                Console.WriteLine("User-Verwaltung");
+                Console.WriteLine("1) Benutzer anzeigen");
+                Console.WriteLine("2) Benutzer anlegen");
+                Console.WriteLine("3) Benutzer löschen");
+                Console.WriteLine("4) Zurück");
+                Console.Write("Auswahl: ");
+
+                string? input = Console.ReadLine();
+
+                switch (input)
+                {
+                    case "1":
+                        _userManagementService.ListUsers();
+                        Pause();
+                        break;
+                    case "2":
+                        _userManagementService.CreateUserManually();
+                        Pause();
+                        break;
+                    case "3":
+                        _userManagementService.DeleteUser();
                         Pause();
                         break;
                     case "4":

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
+using System.IO;
 
 namespace Filamentverwaltungssystem
 {
@@ -41,7 +42,7 @@ namespace Filamentverwaltungssystem
             AppData = LoadFromFile<AppData>(AppDataFile) ?? new AppData();
             Statistics = LoadFromFile<StatisticsData>(StatsDataFile) ?? new StatisticsData();
 
-            EnsureDefaultAdmin();
+            DefaultAdmin();
         }
 
         private T? LoadFromFile<T>(string fileName) where T : class
@@ -87,7 +88,7 @@ namespace Filamentverwaltungssystem
             }
         }
 
-        private void EnsureDefaultAdmin()
+        private void DefaultAdmin()
         {
             // Admin Hardcoded
             bool adminExists = AppData.Users.Exists(u => u.Role == UserRole.Admin);
