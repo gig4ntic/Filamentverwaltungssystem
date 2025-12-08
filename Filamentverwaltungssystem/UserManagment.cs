@@ -5,6 +5,11 @@ using System.Linq;
 
 namespace Filamentverwaltungssystem
 {
+
+    // Bietet Funktionen für die Benutzerverwaltung (nur für Admins gedacht):
+    // - Benutzer auflisten
+    // - Benutzer manuell anlegen
+    // - Benutzer löschen
     public class UserManagement
     {
         private readonly DataStore _dataStore;
@@ -14,6 +19,8 @@ namespace Filamentverwaltungssystem
             _dataStore = dataStore;
         }
 
+
+        // Listet alle registrierten Benutzer mit ihrer Rolle auf.
         public void ListUsers()
         {
             if (!_dataStore.AppData.Users.Any())
@@ -29,6 +36,8 @@ namespace Filamentverwaltungssystem
             }
         }
 
+
+        // Legt einen neuen Benutzer manuell an (inkl. Wahl der Rolle).
         public void CreateUserManually()
         {
             Console.Write("Benutzername: ");
@@ -65,6 +74,8 @@ namespace Filamentverwaltungssystem
             Console.WriteLine("Benutzer wurde angelegt.");
         }
 
+
+        // Löscht einen Benutzer anhand seines Benutzernamens.
         public void DeleteUser()
         {
             ListUsers();

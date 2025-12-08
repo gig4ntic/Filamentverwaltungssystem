@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Filamentverwaltungssystem
 {
+
+    // Verwaltet Login und Registrierung von Benutzern.
+    // Nutzt dabei die in AppData gespeicherten Benutzer.
     public class AuthService
     {
         private readonly AppData _appData;
@@ -14,6 +17,8 @@ namespace Filamentverwaltungssystem
             _appData = appData;
         }
 
+        // Führt einen Login-Versuch durch.
+        // Fragt Benutzername und Passwort ab und liefert den passenden User oder null.
         public User? Login()
         {
             Console.Write("Benutzername: ");
@@ -38,11 +43,13 @@ namespace Filamentverwaltungssystem
             return user;
         }
 
+        // Registriert einen neuen Benutzer mit Rolle "User".
         public User? Register()
         {
             Console.Write("Neuer Benutzername: ");
             string username = Console.ReadLine() ?? string.Empty;
 
+            // Prüfen, ob Benutzername schon existiert
             if (_appData.Users.Any(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase)))
             {
                 Console.WriteLine("Benutzername existiert bereits.");
@@ -65,6 +72,7 @@ namespace Filamentverwaltungssystem
             return user;
         }
 
+        // Liest ein Passwort verdeckt von der Konsole (mit *).
         public static string ReadPassword()
         {
             string password = string.Empty;
@@ -76,11 +84,13 @@ namespace Filamentverwaltungssystem
 
                 if (key.Key == ConsoleKey.Backspace && password.Length > 0)
                 {
+                    // Letztes Zeichen entfernen
                     password = password[0..^1];
                     Console.Write("\b \b");
                 }
                 else if (!char.IsControl(key.KeyChar))
                 {
+                    // Zeichen hinzufügen und Stern ausgeben
                     password += key.KeyChar;
                     Console.Write("*");
                 }
@@ -90,4 +100,4 @@ namespace Filamentverwaltungssystem
             return password;
         }
     }
-}
+} 

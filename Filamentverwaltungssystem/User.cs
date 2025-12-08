@@ -4,13 +4,17 @@ using System.Text;
 
 namespace Filamentverwaltungssystem
 {
-    //Benutzerrolle Admin oder Basisnutzer
+
+    // Rolle eines Benutzers:
+
     public enum UserRole
     {
         User = 0,
         Admin = 1
     }
 
+
+    // Repräsentiert einen Benutzer im Systems.
     public class User
     {
         public string Username { get; set; } = string.Empty;

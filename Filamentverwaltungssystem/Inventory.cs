@@ -6,6 +6,11 @@ using System.Linq;
 
 namespace Filamentverwaltungssystem
 {
+    // Verwaltet:
+    // - Verbrauch aus TXT/GCode-Datei
+    // - Filament-Liste (anzeigen/hinzufügen/löschen)
+    // - Drucker-Liste (anzeigen/hinzufügen/löschen)
+    // - Statistik zur Nutzung von Filamenten und Druckern
     public class InventoryService
     {
         private readonly DataStore _dataStore;
@@ -15,6 +20,7 @@ namespace Filamentverwaltungssystem
             _dataStore = dataStore;
         }
 
+        //   Liest eine TXT-Datei und bucht den Verbrauch auf das passende Filament und den Drucker.
         public void ProcessUsageFromTxt()
         {
             Console.Write("Pfad zur TXT-Datei eingeben: ");
@@ -26,6 +32,7 @@ namespace Filamentverwaltungssystem
                 return;
             }
 
+            // Datei in PrintJob-Objekt parsen
             var job = ParsePrintJobFromFile(path);
             if (job == null)
             {
@@ -33,6 +40,7 @@ namespace Filamentverwaltungssystem
                 return;
             }
 
+            // Passendes Filament anhand Typ, Farbe und Durchmesser suchen
             var filament = _dataStore.AppData.Filaments
                 .FirstOrDefault(f =>
                     f.Type.Equals(job.FilamentType, StringComparison.OrdinalIgnoreCase) &&
@@ -45,6 +53,7 @@ namespace Filamentverwaltungssystem
                 return;
             }
 
+            // passenden Drucker anhand Name suchen
             var printer = _dataStore.AppData.Printers
                 .FirstOrDefault(p => p.Name.Equals(job.PrinterName, StringComparison.OrdinalIgnoreCase));
 
@@ -58,18 +67,27 @@ namespace Filamentverwaltungssystem
             Console.WriteLine($"Gefundener Drucker: {printer.Name}");
             Console.WriteLine($"Verbrauchtes Filament laut Datei: {job.AmountGrams} g");
 
+            // Prüfen, ob genug Filament vorhanden ist
             if (filament.RemainingGrams < job.AmountGrams)
             {
                 Console.WriteLine("WARNUNG: Nicht genug Filament vorhanden! Vorgang wird nicht durchgeführt. Bitte neues Filament bestellen!");
                 return;
             }
 
+            // Verbrauch verbuchen
             filament.RemainingGrams -= job.AmountGrams;
             Console.WriteLine($"Neue Restmenge des Filaments: {filament.RemainingGrams} g");
 
+            // Statistik aktualisieren: Dieses Filament und dieser Drucker wurden 1x benutzt
+            IncreaseFilamentUsage(filament.Id);
+            IncreasePrinterUsage(printer.Id);
+
+            // Daten und Statistik in JSON speichern
             _dataStore.SaveAppData();
+            _dataStore.SaveStatistics();
         }
 
+        // Liest Key/Value-Paare aus einer Datei und baut daraus ein PrintJob-Objekt.
         private PrintJob? ParsePrintJobFromFile(string path)
         {
             var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -117,7 +135,7 @@ namespace Filamentverwaltungssystem
 
             if (!dict.TryGetValue("printer", out string printerName))
             {
-                Console.WriteLine("Kein Drucker geunden in der Datei.");
+                Console.WriteLine("Kein Drucker gefunden in der Datei.");
                 return null;
             }
 
@@ -134,7 +152,7 @@ namespace Filamentverwaltungssystem
 
         // Filament-Verwaltung
 
-
+        // Zeigt alle Filamente sortiert nach Typ und Farbe an.
         public void ShowAllFilaments()
         {
             var filaments = _dataStore.AppData.Filaments
@@ -155,6 +173,7 @@ namespace Filamentverwaltungssystem
             }
         }
 
+        // Fragt Daten für ein neues Filament ab und fügt es dem Lager hinzu.
         public void AddFilament()
         {
             Console.Write("Filamentart (PLA, PETG, etc.): ");
@@ -191,6 +210,7 @@ namespace Filamentverwaltungssystem
             Console.WriteLine("Filament wurde hinzugefügt.");
         }
 
+        // Löscht ein Filament anhand der eingegebenen Id.
         public void RemoveFilament()
         {
             ShowAllFilaments();
@@ -216,6 +236,7 @@ namespace Filamentverwaltungssystem
             Console.WriteLine("Filament wurde entfernt.");
         }
 
+        // Erhöht den Nutzungszähler für ein bestimmtes Filament in der Statistik.
         private void IncreaseFilamentUsage(Guid filamentId)
         {
             var entry = _dataStore.Statistics.FilamentUsage
@@ -237,7 +258,7 @@ namespace Filamentverwaltungssystem
 
         // Drucker-Verwaltung
 
-
+        // Zeigt alle registrierten Drucker an.
         public void ShowPrinters()
         {
             var printers = _dataStore.AppData.Printers.ToList();
@@ -255,6 +276,7 @@ namespace Filamentverwaltungssystem
             }
         }
 
+        // Fügt einen neuen Drucker hinzu.
         public void AddPrinter()
         {
             Console.Write("Name des neuen Druckers: ");
@@ -273,6 +295,7 @@ namespace Filamentverwaltungssystem
             Console.WriteLine("Drucker wurde hinzugefügt.");
         }
 
+        // Entfernt einen Drucker anhand seiner Id.
         public void RemovePrinter()
         {
             ShowPrinters();
@@ -298,6 +321,7 @@ namespace Filamentverwaltungssystem
             Console.WriteLine("Drucker wurde entfernt.");
         }
 
+        // Erhöht den Nutzungszähler für einen bestimmten Drucker in der Statistik.
         private void IncreasePrinterUsage(Guid printerId)
         {
             var entry = _dataStore.Statistics.PrinterUsage
@@ -316,8 +340,9 @@ namespace Filamentverwaltungssystem
             entry.UsageCount++;
         }
 
-        //Statistik anzeigen
+        // Statistik-Anzeige
 
+        // Zeigt die Top 5 meist genutzten Filamente und Drucker.
         public void ShowStatistics()
         {
             Console.WriteLine("Top 5 Filamente (nach Häufigkeit der Nutzung):");

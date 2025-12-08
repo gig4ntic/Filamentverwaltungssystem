@@ -4,6 +4,8 @@ using System.Text;
 
 namespace Filamentverwaltungssystem
 {
+
+    // Erstellt einen 3D-Drucker.
     public class Printer
     {
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -15,6 +17,7 @@ namespace Filamentverwaltungssystem
         }
     }
 
+    // Statistik-Eintrag: Wie oft wurde ein bestimmter Drucker verwendet.
     public class PrinterUsage
     {
         public Guid PrinterId { get; set; }

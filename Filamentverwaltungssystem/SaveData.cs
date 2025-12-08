@@ -6,7 +6,9 @@ using System.IO;
 
 namespace Filamentverwaltungssystem
 {
-    // Container zum speichern für alle Daten
+    // Container-Klasse für alle speicherbaren Daten:
+    // Benutzer, Filamente, Drucker.
+    // Wird als data.json gespeichert.
     public class AppData
     {
         public List<User> Users { get; set; } = new();
@@ -14,16 +16,19 @@ namespace Filamentverwaltungssystem
         public List<Printer> Printers { get; set; } = new();
     }
 
-    // Statistikdaten
+    // Container für die Statistik-Daten:
+    // - Filamentnutzung
+    // - Druckernutzung
     public class StatisticsData
     {
-        // Filamentnutzung
+        // Wie oft wurde welches Filament verwendet?
         public List<Filament.FilamentUsage> FilamentUsage { get; set; } = new();
 
-        // Druckernutzung
+        // Wie oft wurde welcher Drucker verwendet?
         public List<PrinterUsage> PrinterUsage { get; set; } = new();
     }
 
+    // Kapselt das Laden und Speichern der Daten in JSON-Dateien.
     public class DataStore
     {
         private const string AppDataFile = "data.json";
@@ -37,6 +42,9 @@ namespace Filamentverwaltungssystem
         public AppData AppData { get; private set; } = new();
         public StatisticsData Statistics { get; private set; } = new();
 
+        // Lädt AppData und Statistics aus JSON-Dateien.
+        // Erstellt falls nötig neue leere Objekte.
+        // Erzeugt außerdem den Default-Admin.
         public void Load()
         {
             AppData = LoadFromFile<AppData>(AppDataFile) ?? new AppData();
@@ -45,6 +53,7 @@ namespace Filamentverwaltungssystem
             DefaultAdmin();
         }
 
+        // Generische Hilfsmethode zum Laden eines JSON-Files in ein Objekt.
         private T? LoadFromFile<T>(string fileName) where T : class
         {
             try
@@ -65,16 +74,19 @@ namespace Filamentverwaltungssystem
             }
         }
 
+        // Speichert AppData (Benutzer, Filamente, Drucker) in data.json.
         public void SaveAppData()
         {
             SaveToFile(AppDataFile, AppData);
         }
 
+        // Speichert die Statistikdaten in stats.json.
         public void SaveStatistics()
         {
             SaveToFile(StatsDataFile, Statistics);
         }
 
+        // Generische Hilfsmethode zum Speichern eines Objekts als JSON.
         private void SaveToFile<T>(string fileName, T data)
         {
             try
@@ -88,6 +100,8 @@ namespace Filamentverwaltungssystem
             }
         }
 
+        // Stellt sicher, dass es mindestens einen Admin-User gibt.
+        // Falls nicht, wird 'admin'/'admin' angelegt.
         private void DefaultAdmin()
         {
             // Admin Hardcoded
