@@ -1,0 +1,5 @@
+FilamentType=ABS
+Color=grau
+Diameter=1.75
+AmountGrams=194
+Printer=Creality K2Pro
