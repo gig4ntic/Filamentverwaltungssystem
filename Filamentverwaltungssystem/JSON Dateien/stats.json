@@ -1,0 +1,34 @@
+{
+  "FilamentUsage": [
+    {
+      "FilamentId": "78875fcb-53a9-49c8-9c79-4c5889cd5a61",
+      "UsageCount": 1
+    },
+    {
+      "FilamentId": "8f03a5af-9b23-43d0-a197-d3b3210da3ba",
+      "UsageCount": 1
+    },
+    {
+      "FilamentId": "a254d6ae-f979-49ff-a76f-07f371117930",
+      "UsageCount": 1
+    },
+    {
+      "FilamentId": "f97a0664-d47d-43be-8f5e-08cd815723c4",
+      "UsageCount": 1
+    },
+    {
+      "FilamentId": "336b9d3f-6600-4415-ac61-cf2d17341753",
+      "UsageCount": 1
+    }
+  ],
+  "PrinterUsage": [
+    {
+      "PrinterId": "8a96b644-f5c9-4e6a-81f3-79ad2515c55b",
+      "UsageCount": 2
+    },
+    {
+      "PrinterId": "897e8714-082d-4318-ac09-046bc0abffea",
+      "UsageCount": 3
+    }
+  ]
+}
