@@ -1,0 +1,5 @@
+FilamentType=PETG
+Color=rot
+Diameter=1.75
+AmountGrams=45
+Printer=Ender 3 V2

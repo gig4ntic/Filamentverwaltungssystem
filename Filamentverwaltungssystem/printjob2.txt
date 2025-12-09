@@ -1,0 +1,5 @@
+FilamentType=TPU
+Color=blau
+Diameter=1.75
+AmountGrams=145
+Printer=Ender 3 V2
