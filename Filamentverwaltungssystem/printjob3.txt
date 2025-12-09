@@ -1,5 +1,0 @@
-FilamentType=PETG
-Color=grau
-Diameter=1.75
-AmountGrams=82
-Printer=Creality K2Pro
