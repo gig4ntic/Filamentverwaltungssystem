@@ -1,5 +1,0 @@
-FilamentType=PLA
-Color=rot
-Diameter=1.75
-AmountGrams=14
-Printer=Creality K2Pro
