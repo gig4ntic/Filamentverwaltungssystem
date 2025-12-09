@@ -285,7 +285,7 @@ namespace Filamentverwaltungssystem
             while (!back)
             {
                 Console.Clear();
-                Console.WriteLine("===== User-Verwaltung =====");
+                Console.WriteLine("User-Verwaltung");
                 Console.WriteLine("1) Benutzer anzeigen");
                 Console.WriteLine("2) Benutzer anlegen");
                 Console.WriteLine("3) Benutzer löschen");

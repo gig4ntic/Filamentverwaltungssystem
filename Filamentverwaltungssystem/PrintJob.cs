@@ -5,7 +5,7 @@ using System.Text;
 namespace Filamentverwaltungssystem
 {
     // Extrahiert die Daten eines Druckauftrags,
-    // wie sie aus der TXT/GCode-Hilfsdatei gelesen werden.
+    // die aus der TXT/GCode-Hilfsdatei gelesen werden.
     public class PrintJob
     {
         public string FilamentType { get; set; } = string.Empty;
