@@ -1,0 +1,82 @@
+{
+  "Users": [
+    {
+      "Username": "admin",
+      "Password": "admin",
+      "Role": 1
+    },
+    {
+      "Username": "gig4ntic",
+      "Password": "test123",
+      "Role": 0
+    }
+  ],
+  "Filaments": [
+    {
+      "Id": "c1eacbe9-6312-4459-9aa0-649abcb1b156",
+      "Type": "PLA",
+      "Color": "blau",
+      "Diameter": 1.75,
+      "RemainingGrams": 1000
+    },
+    {
+      "Id": "78875fcb-53a9-49c8-9c79-4c5889cd5a61",
+      "Type": "PETG",
+      "Color": "rot",
+      "Diameter": 1.75,
+      "RemainingGrams": 94
+    },
+    {
+      "Id": "336b9d3f-6600-4415-ac61-cf2d17341753",
+      "Type": "ABS",
+      "Color": "grau",
+      "Diameter": 1.75,
+      "RemainingGrams": 793
+    },
+    {
+      "Id": "7725dc42-e4b1-404f-ba84-b716e1968665",
+      "Type": "PLA",
+      "Color": "schwarz",
+      "Diameter": 1.75,
+      "RemainingGrams": 212
+    },
+    {
+      "Id": "f97a0664-d47d-43be-8f5e-08cd815723c4",
+      "Type": "PLA",
+      "Color": "rot",
+      "Diameter": 1.75,
+      "RemainingGrams": 742
+    },
+    {
+      "Id": "c9f3fbe6-0901-4e24-aba2-07cf0fbd1085",
+      "Type": "TPU",
+      "Color": "schwarz",
+      "Diameter": 1.75,
+      "RemainingGrams": 125
+    },
+    {
+      "Id": "8f03a5af-9b23-43d0-a197-d3b3210da3ba",
+      "Type": "TPU",
+      "Color": "blau",
+      "Diameter": 1.75,
+      "RemainingGrams": 785
+    },
+    {
+      "Id": "a254d6ae-f979-49ff-a76f-07f371117930",
+      "Type": "PETG",
+      "Color": "grau",
+      "Diameter": 1.75,
+      "RemainingGrams": 760
+    }
+  ],
+  "Printers": [
+    {
+      "Id": "897e8714-082d-4318-ac09-046bc0abffea",
+      "Name": "Creality K2Pro"
+    },
+    {
+      "Id": "8a96b644-f5c9-4e6a-81f3-79ad2515c55b",
+      "Name": "Ender 3 V2"
+    }
+  ]
+}
